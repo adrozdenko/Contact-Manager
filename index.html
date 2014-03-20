@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Marionette Contact Manager</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.css"/>
+	<link rel="stylesheet" href="assets/css/app.css"/>
+	<link rel="stylesheet" href="assets/css/jquery-ui.css"/>
+	<link rel="stylesheet" href="assets/css/backbone.modal.css"/>
+	<link rel="stylesheet" href="assets/css/backbone.modal.theme.css"/>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<div class="brand">Contact manager</div>
+		</div>
+	</div>
+</div>
+
+<div id="main-region" class="container">
+	<p>Here is static content of the web page. It will get replaced as soon as app starts</p>
+</div>
+
+<div id="dialog-region"></div>
+
+<script type="text/template" id="contact-list">
+	<thead>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</script>
+
+<script type="text/template" id="contact-list-item">
+	<td><%= firstName %></td>
+	<td><%= lastName %></td>
+	<td>
+		<a href="#contacts/<%= id %>" class="btn btn-small js-show">
+			<i class="icon-eye-open"></i>
+			Show
+		</a>
+		<a href="#contacts/<%= id %>" class="btn btn-small js-edit">
+			<i class="icon-pencil"></i>
+			Edit
+		</a>
+		<button class="btn btn-small js-delete">
+			<i class="icon-remove"></i>
+			Delete
+		</button>
+	</td>
+</script>
+
+<script type="text/template" id="contact-view">
+	<h1><%= firstName %> <%= lastName %></h1>
+	<p><strong>Phone Number:</strong> <%= phoneNumber %></p>
+	<a href="#contacts/<%= id %>/edit" class="btn btn-small js-edit">
+		<i class="icon-pencil"></i>
+		Edit this contact
+	</a>
+</script>
+
+<script type="text/template" id="missing-contact-view">
+	<div class="alert alert-error">
+		This contact doesn't exist!
+	</div>
+</script>
+
+<script type="text/template" id="loading-view">
+	<h1><%= title %></h1>
+	<p><%= message %></p>
+	<div id="spinner"></div>
+</script>
+
+<script type="text/template" id="contact-form">
+	<h1>Edit <%= firstName %> <%= lastName %></h1>
+	<form>
+		<div class="control-group">
+			<label for="contact-firstName" class="control-label">First Name</label>
+			<input type="text" name="firstName" id="contact-firstName" value="<%= firstName %>"/>
+		</div>
+		<div class="control-group">
+			<label for="contact-lastName" class="control-label">Last Name</label>
+			<input type="text" name="lastName" id="contact-lastName" value="<%= lastName %>"/>
+		</div>
+		<div class="control-group">
+			<label for="contact-phoneNumber" class="control-label">Phone Number</label>
+			<input type="text" name="phoneNumber" id="contact-phoneNumber" value="<%= phoneNumber %>"/>
+		</div>
+		<button class="btn js-submit">Save</button>
+	</form>
+</script>
+
+<script src="assets/js/vendor/jquery-1.10.2.js"></script>
+<script src="assets/js/vendor/jquery-ui.js"></script>
+<script src="assets/js/vendor/json2.js"></script>
+
+<script src="assets/js/vendor/underscore.js"></script>
+
+<script src="assets/js/vendor/backbone.js"></script>
+<script src="assets/js/vendor/backbone.syphon.js"></script>
+<script src="assets/js/vendor/backbone.localstorage.js"></script>
+<script src="assets/js/vendor/backbone.marionette.js"></script>
+
+<script src="assets/js/vendor/spin.js"></script>
+<script src="assets/js/vendor/spin.jquery.js"></script>
+<script src="assets/js/vendor/backbone.modal.js"></script>
+
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/apps/config/storage/localstorage.js"></script>
+
+<script src="assets/js/entities/contact.js"></script>
+<script src="assets/js/common/views.js"></script>
+
+<script src="assets/js/apps/contacts/contacts_app.js"></script>
+
+<script src="assets/js/apps/contacts/list/list_view.js"></script>
+<script src="assets/js/apps/contacts/list/list_controller.js"></script>
+
+<script src="assets/js/apps/contacts/show/show_view.js"></script>
+<script src="assets/js/apps/contacts/show/show_controller.js"></script>
+
+<script src="assets/js/apps/contacts/edit/edit_view.js"></script>
+<script src="assets/js/apps/contacts/edit/edit_controller.js"></script>
+
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+	ContactManager.start();
+</script>
