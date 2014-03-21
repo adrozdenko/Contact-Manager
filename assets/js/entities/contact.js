@@ -1,22 +1,27 @@
-ContactManager.module('Entities', function(Entities, ContactManager, Backbone, Marionette, $, _){
-
+ContactManager.module("Entities", function(Entities, ContactManager, Backbone, Marionette, $, _){
 	Entities.Contact = Backbone.Model.extend({
 		urlRoot: "contacts",
 
+		defaults: {
+			firstName: "",
+			lastName: "",
+			phoneNumber: ""
+		},
+
 		validate: function(attrs, options) {
 			var errors = {}
-
-			if(! attrs.firstName) {
-				errors.firstName = "can't be blank"
+			if (! attrs.firstName) {
+				errors.firstName = "can't be blank";
 			}
-			if(! attrs.lastName) {
-				errors.lastName = "can't be blank"
-			} else {
-				if(attrs.lastName.length < 2) {
-					errors.lastName = "is to short"
+			if (! attrs.lastName) {
+				errors.lastName = "can't be blank";
+			}
+			else{
+				if (attrs.lastName.length < 2) {
+					errors.lastName = "is too short";
 				}
 			}
-			if(!_.isEmpty(errors)) {
+			if( ! _.isEmpty(errors)){
 				return errors;
 			}
 		}
@@ -25,129 +30,58 @@ ContactManager.module('Entities', function(Entities, ContactManager, Backbone, M
 	Entities.configureStorage(Entities.Contact);
 
 	Entities.ContactCollection = Backbone.Collection.extend({
-
 		url: "contacts",
-
 		model: Entities.Contact,
-
-		comparator: function(a, b) {
-			var aFirstName = a.get('firstName');
-			var bFirstName = b.get('firstName');
-
-			if(aFirstName === bFirstName) {
-				var aLastName = a.get('lastName');
-				var bLastName = b.get('lastName');
-				if (aLastName === bLastName) {
-					return 0
-				};
-				if (aLastName < bLastName) {
-					return -1
-				} else {
-					return 1
-				}
-			} else {
-				if (aFirstName < bFirstName) {
-					return -1
-				} else {
-					return 1
-				}
-			}
-		}
+		comparator: "firstName"
 	});
 
 	Entities.configureStorage(Entities.ContactCollection);
 
-	var contacts;
-
-	var initialiazeContacts = function() {
+	var initializeContacts = function(){
 		contacts = new Entities.ContactCollection([
-			{
-				id: 1,
-				firstName: 'Alice',
-				lastName: 'Tampen',
-				phoneNumber: '555-0983'
-			},
-			{
-				id: 2,
-				firstName: 'Alice',
-				lastName: 'Arten',
-				phoneNumber: '555-0983'
-			},
-			{
-				id: 3,
-				firstName: 'Alice',
-				lastName: 'Artsy',
-				phoneNumber: '555-0983'
-			},
-			{
-				id: 4,
-				firstName: 'John',
-				lastName: 'Weeks',
-				phoneNumber: '555-0482'
-			},
-			{
-				id: 5,
-				firstName: 'Jeffrey',
-				lastName: 'Way',
-				phoneNumber: '534-0235'
-			},
-			{
-				id: 6,
-				firstName: 'Douglas',
-				lastName: 'Crockford',
-				phoneNumber: '231-0453'
-			},
+			{ id: 1, firstName: "Alice", lastName: "Arten", phoneNumber: "555-0184" },
+			{ id: 2, firstName: "Bob", lastName: "Brigham", phoneNumber: "555-0163" },
+			{ id: 3, firstName: "Charlie", lastName: "Campbell", phoneNumber: "555-0129" }
 		]);
-
 		contacts.forEach(function(contact){
 			contact.save();
 		});
-
 		return contacts.models;
 	};
 
 	var API = {
-		getContactEntities: function() {
+		getContactEntities: function(){
 			var contacts = new Entities.ContactCollection();
-
 			var defer = $.Deferred();
-
 			contacts.fetch({
-				success: function (data) {
+				success: function(data){
 					defer.resolve(data);
 				}
 			});
-
 			var promise = defer.promise();
-
 			$.when(promise).done(function(contacts){
-				if (contacts.length === 0) {
-					var models = initialiazeContacts();
+				if(contacts.length === 0){
+					// if we don't have any contacts yet, create some for convenience
+					var models = initializeContacts();
 					contacts.reset(models);
 				}
 			});
-
 			return promise;
 		},
 
-		getContactEntity: function(contactId) {
-			var contact = new Entities.Contact({
-				id: contactId
-			});
-
+		getContactEntity: function(contactId){
+			var contact = new Entities.Contact({id: contactId});
 			var defer = $.Deferred();
-
 			setTimeout(function(){
 				contact.fetch({
-					success: function(data) {
+					success: function(data){
 						defer.resolve(data);
 					},
-					error: function(data) {
+					error: function(data){
 						defer.resolve(undefined);
 					}
 				});
-			}, 500);
-
+			}, 2000);
 			return defer.promise();
 		}
 	};
