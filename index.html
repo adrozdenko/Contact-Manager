@@ -9,19 +9,29 @@
 	<link rel="stylesheet" href="assets/css/backbone.modal.theme.css"/>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<div class="brand">Contact manager</div>
-		</div>
-	</div>
-</div>
+
+<div id="header-region"></div>
 
 <div id="main-region" class="container">
 	<p>Here is static content of the web page. It will get replaced as soon as app starts</p>
 </div>
 
 <div id="dialog-region"></div>
+
+<script type="text/template" id="header-template">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="#contacts">Contact manager</a>
+			<div class="nav-collapse collapse">
+				<ul class="nav"></ul>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="header-link">
+	<a href="#<%= url %>"><%= name %></a>
+</script>
 
 <script type="text/template" id="contact-list-layout">
 	<div id="panel-region"></div>
@@ -140,6 +150,7 @@
 <script src="assets/js/vendor/underscore.js"></script>
 
 <script src="assets/js/vendor/backbone.js"></script>
+<script src="assets/js/vendor/backbone.picky.js"></script>
 <script src="assets/js/vendor/backbone.syphon.js"></script>
 <script src="assets/js/vendor/backbone.localstorage.js"></script>
 <script src="assets/js/vendor/backbone.marionette.js"></script>
@@ -150,8 +161,9 @@
 <script src="assets/js/apps/config/marionette/regions/dialog.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/apps/config/storage/localstorage.js"></script>
-<script src="assets/js/entities/common.js"></script>
 
+<script src="assets/js/entities/common.js"></script>
+<script src="assets/js/entities/header.js"></script>
 <script src="assets/js/entities/contact.js"></script>
 <script src="assets/js/common/views.js"></script>
 
@@ -163,6 +175,10 @@
 
 <script src="assets/js/apps/contacts/show/show_view.js"></script>
 <script src="assets/js/apps/contacts/show/show_controller.js"></script>
+
+<script src="assets/js/apps/header/header_app.js"></script>
+<script src="assets/js/apps/header/list/list_view.js"></script>
+<script src="assets/js/apps/header/list/list_controller.js"></script>
 
 <script src="assets/js/apps/contacts/edit/edit_view.js"></script>
 <script src="assets/js/apps/contacts/edit/edit_controller.js"></script>
