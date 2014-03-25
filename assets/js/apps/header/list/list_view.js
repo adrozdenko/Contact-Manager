@@ -13,7 +13,6 @@ ContactManager.module("HeaderApp.List", function(List, ContactManager, Backbone,
 		},
 
 		onRender: function(){
-			console.log(this.model);
 			if(this.model.selected){
 				this.$el.addClass("active");
 			};
